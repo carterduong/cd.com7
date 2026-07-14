@@ -1,4 +1,14 @@
+import {PlayIcon} from '@sanity/icons/Play'
 import {ProjectsIcon} from '@sanity/icons/Projects'
+
+function toPlainText(blocks?: Array<{_type: string; children?: Array<{text: string}>}>) {
+  return (
+    blocks
+      ?.filter((b) => b._type === 'block')
+      .map((b) => b.children?.map((c) => c.text).join(''))
+      .join(' ') || ''
+  )
+}
 import {defineArrayMember, defineField, defineType} from 'sanity'
 
 const frameField = defineField({
@@ -55,6 +65,18 @@ export const project = defineType({
             }),
             frameField,
           ],
+          preview: {
+            select: {
+              caption: 'caption',
+              media: 'asset',
+            },
+            prepare({caption, media}) {
+              return {
+                title: toPlainText(caption) || 'Image',
+                media,
+              }
+            },
+          },
         }),
         defineArrayMember({
           name: 'videoWithCaption',
@@ -73,6 +95,17 @@ export const project = defineType({
             }),
             frameField,
           ],
+          preview: {
+            select: {
+              caption: 'caption',
+            },
+            prepare({caption}) {
+              return {
+                title: toPlainText(caption) || 'Video',
+                media: PlayIcon,
+              }
+            },
+          },
         }),
       ],
     }),
