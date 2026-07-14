@@ -7,6 +7,7 @@ import {
   type Project as ProjectData,
 } from '#/lib/queries'
 import { sanityClient } from '#/lib/sanity'
+import { ProjectVideo } from '#/components/ProjectVideo'
 
 const projectsQueryOptions = queryOptions({
   queryKey: ['projects'],
@@ -39,6 +40,13 @@ function formatLastUpdated(date: string) {
 function Intro({ lastUpdated }: { lastUpdated: string | null }) {
   return (
     <div className="text-center">
+      <div className="max-w-[70vw] max-h-[70vh] m-auto flex items-center justify-center py-48">
+        <ProjectVideo
+          playbackId="IqSfjklZBVBWdl1rODa6J6g3qrcl16qcVOclpednDH00"
+          framed
+          horizontal
+        />
+      </div>
       <div>Carter Duong</div>
       <div>
         <a href="mailto:mail@carterduong.com">mail@carterduong.com</a>
@@ -65,6 +73,11 @@ function Home() {
           <Project {...project} />
         </section>
       ))}
+      {lastUpdated ? (
+        <section className="py-24 text-center">
+          last updated {formatLastUpdated(lastUpdated)}
+        </section>
+      ) : null}
     </main>
   )
 }

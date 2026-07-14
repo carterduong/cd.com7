@@ -26,6 +26,11 @@ const frameStyle: ComponentProps<'div'>['style'] = {
   isolation: 'isolate',
 }
 
+const horizontalFrameStyle: ComponentProps<'div'>['style'] = {
+  aspectRatio: '3857 / 1920',
+  width: 'min(70vh, calc(70vw * 3857 / 1920))',
+}
+
 const layerClassName =
   'pointer-events-none absolute inset-0 block h-full w-full select-none'
 
@@ -36,18 +41,33 @@ export interface ColorPhoneFrameProps {
   showBezel?: boolean
   showFrame?: boolean
   showTint?: boolean
+  isHorizontal?: boolean
 }
 
 export function ColorPhoneFrame({
   children,
   color = '#000000',
+  isHorizontal = false,
   showMedia = true,
   showBezel = true,
   showFrame = true,
   showTint = false,
 }: ColorPhoneFrameProps) {
-  return (
-    <div className="relative" style={frameStyle}>
+  const frame = (
+    <div
+      className="relative"
+      style={{
+        ...frameStyle,
+        ...(isHorizontal
+          ? {
+              position: 'absolute',
+              top: '50%',
+              left: '50%',
+              transform: 'translate(-50%, -50%) rotate(-90deg)',
+            }
+          : {}),
+      }}
+    >
       {showMedia ? (
         <div
           className="absolute overflow-hidden bg-black"
@@ -101,6 +121,14 @@ export function ColorPhoneFrame({
           }}
         />
       ) : null}
+    </div>
+  )
+
+  if (!isHorizontal) return frame
+
+  return (
+    <div className="relative" style={horizontalFrameStyle}>
+      {frame}
     </div>
   )
 }

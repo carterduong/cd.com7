@@ -2,7 +2,9 @@ import MuxPlayer from '@mux/mux-player-react'
 import { useState, type ComponentProps } from 'react'
 import { ColorPhoneFrame } from '#/components/ColorPhoneFrame'
 
-function videoStyle(aspectRatio?: string | null): ComponentProps<typeof MuxPlayer>['style'] {
+function videoStyle(
+  aspectRatio?: string | null,
+): ComponentProps<typeof MuxPlayer>['style'] {
   const [w, h] = aspectRatio?.split(':').map(Number) ?? []
   if (!w || !h) {
     return {
@@ -26,10 +28,12 @@ export function ProjectVideo({
   playbackId,
   aspectRatio,
   framed,
+  horizontal,
 }: {
   playbackId: string
   aspectRatio?: string | null
   framed?: boolean
+  horizontal?: boolean
 }) {
   const [playing, setPlaying] = useState(false)
 
@@ -59,7 +63,11 @@ export function ProjectVideo({
   )
 
   if (framed) {
-    return <ColorPhoneFrame color="#000000">{player}</ColorPhoneFrame>
+    return (
+      <ColorPhoneFrame color="#000000" isHorizontal={horizontal}>
+        {player}
+      </ColorPhoneFrame>
+    )
   }
 
   return player
