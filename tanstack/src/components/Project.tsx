@@ -4,7 +4,7 @@ import type { Project as ProjectData } from '#/lib/queries'
 import { MediaItem } from '#/components/MediaItem'
 import { PortableTextRenderer } from '#/components/PortableTextRenderer'
 
-export function Project({ title, year, media }: ProjectData) {
+export function Project({ title, credits, year, media }: ProjectData) {
   const [emblaRef, emblaApi] = useEmblaCarousel({
     loop: false,
     align: 'center',
@@ -63,7 +63,7 @@ export function Project({ title, year, media }: ProjectData) {
     <div>
       {media && media.length > 0 ? (
         <div ref={emblaRef} className={emblaApi ? 'visible' : 'invisible'}>
-          <div className="flex">
+          <div className="flex gap-[60px]">
             {media.map((item, index) => (
               <div
                 key={item._key}
@@ -76,7 +76,7 @@ export function Project({ title, year, media }: ProjectData) {
           </div>
         </div>
       ) : null}
-      <div className="flex min-h-24 justify-center pt-12 text-center">
+      <div className="flex min-h-24 justify-center pt-24 max-w-[45vw] m-auto text-center">
         <div
           className={`transition-opacity duration-200 ${
             captionVisible ? 'opacity-100' : 'opacity-0'
@@ -85,6 +85,7 @@ export function Project({ title, year, media }: ProjectData) {
           {displayedIndex === firstImageIndex ? (
             <>
               <h2>{title}</h2>
+              {credits && <p>{credits}</p>}
               <p>{year}</p>
             </>
           ) : displayedItem?.caption?.length ? (
