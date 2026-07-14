@@ -24,6 +24,11 @@ export const project = defineType({
       validation: (rule) => rule.required(),
     }),
     defineField({
+      name: 'credits',
+      title: 'Credits',
+      type: 'string',
+    }),
+    defineField({
       name: 'year',
       title: 'Year',
       type: 'number',

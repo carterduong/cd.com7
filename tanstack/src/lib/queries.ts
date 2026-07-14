@@ -5,6 +5,7 @@ export const PROJECTS_QUERY = defineQuery(`
   *[_type == "project" && !(_id in path("drafts.**"))] | order(year desc) {
     _id,
     title,
+    credits,
     year,
     media[] {
       _key,
@@ -61,6 +62,7 @@ export type ProjectMedia =
 export type Project = {
   _id: string
   title: string
+  credits?: string | null
   year: number
   media?: ProjectMedia[] | null
 }
