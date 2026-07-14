@@ -9,8 +9,20 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as PhoneFrameRouteImport } from './routes/phone-frame'
+import { Route as ColorPhoneFrameRouteImport } from './routes/color-phone-frame'
 import { Route as IndexRouteImport } from './routes/index'
 
+const PhoneFrameRoute = PhoneFrameRouteImport.update({
+  id: '/phone-frame',
+  path: '/phone-frame',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ColorPhoneFrameRoute = ColorPhoneFrameRouteImport.update({
+  id: '/color-phone-frame',
+  path: '/color-phone-frame',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -19,28 +31,50 @@ const IndexRoute = IndexRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/color-phone-frame': typeof ColorPhoneFrameRoute
+  '/phone-frame': typeof PhoneFrameRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/color-phone-frame': typeof ColorPhoneFrameRoute
+  '/phone-frame': typeof PhoneFrameRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/color-phone-frame': typeof ColorPhoneFrameRoute
+  '/phone-frame': typeof PhoneFrameRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths: '/' | '/color-phone-frame' | '/phone-frame'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to: '/' | '/color-phone-frame' | '/phone-frame'
+  id: '__root__' | '/' | '/color-phone-frame' | '/phone-frame'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  ColorPhoneFrameRoute: typeof ColorPhoneFrameRoute
+  PhoneFrameRoute: typeof PhoneFrameRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/phone-frame': {
+      id: '/phone-frame'
+      path: '/phone-frame'
+      fullPath: '/phone-frame'
+      preLoaderRoute: typeof PhoneFrameRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/color-phone-frame': {
+      id: '/color-phone-frame'
+      path: '/color-phone-frame'
+      fullPath: '/color-phone-frame'
+      preLoaderRoute: typeof ColorPhoneFrameRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -53,6 +87,8 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  ColorPhoneFrameRoute: ColorPhoneFrameRoute,
+  PhoneFrameRoute: PhoneFrameRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

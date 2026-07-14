@@ -1,6 +1,16 @@
 import {ProjectsIcon} from '@sanity/icons/Projects'
 import {defineArrayMember, defineField, defineType} from 'sanity'
 
+const frameField = defineField({
+  name: 'frame',
+  title: 'Frame',
+  type: 'string',
+  options: {
+    list: ['phone'],
+    layout: 'dropdown',
+  },
+})
+
 export const project = defineType({
   name: 'project',
   title: 'Project',
@@ -33,11 +43,31 @@ export const project = defineType({
               title: 'Alt text',
               type: 'string',
             }),
+            defineField({
+              name: 'caption',
+              title: 'Caption',
+              type: 'portableText',
+            }),
+            frameField,
           ],
         }),
         defineArrayMember({
-          type: 'mux.video',
+          name: 'videoWithCaption',
           title: 'Video',
+          type: 'object',
+          fields: [
+            defineField({
+              name: 'video',
+              title: 'Video',
+              type: 'mux.video',
+            }),
+            defineField({
+              name: 'caption',
+              title: 'Caption',
+              type: 'portableText',
+            }),
+            frameField,
+          ],
         }),
       ],
     }),
